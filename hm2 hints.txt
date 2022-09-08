@@ -1,0 +1,57 @@
+dotnet publish -c Release -o .\API\out
+
+docker build -t chepene/otus2-repo:v8 -f Dockerfile.release .
+docker push chepene/otus2-repo:v8
+
+kubectl apply -f .\k8s\manifests\003-deployment.yaml
+
+kubectl run my-postgres-postgresql-client --rm --tty -i --restart='Never' --namespace otus-hm2 --image docker.io/bitnami/postgresql:14.4.0-debian-11-r21 --env="POSTGRESQL_PASSWORD=WcYBLVSFX2"
+
+
+
+helm upgrade --install userservice-release . --namespace otus-hm2 --set userservice.image.tag="v10" 
+
+helm upgrade --install userservice-release . --namespace otus-hm2 --set userservice.image.tag="v7" --debug --dry-run
+
+
+
+
+
+
+ docker build -t chepene/otus2-dbmigrator -f Dockerfile.release .
+
+
+ chepene/otus2-dbmigrator:v0.0.1
+
+ dotnet publish -c Release -o .\out 
+ docker build -t chepene/otus2-dbmigrator:v0.0.4 -f Dockerfile.release .
+
+
+helm upgrade --install userservice-release . --namespace otus-hm2 --set userservice.image.tag="v10" --set userservice.dbmigratorimage.tag="v0.0.4"
+
+
+
+helm upgrade --install userservice-release . --namespace otus-hm2 --set userservice.image.tag="v10" --set userservice.dbmigratorimage.tag="v0.0.4"
+
+--cleaning
+
+
+helm uninstall userservice-release --namespace otus-hm2 | kubectl delete configmap    db-config     -n   otus-hm2
+
+
+
+
+my-postgres-postgresql-0
+
+    kubectl port-forward --namespace otus-hm2 svc/my-postgres-postgresql 5432:5432 &
+    PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U robot -d my-db -p 5438
+
+
+    kubectl delete configmap    db-config     -n   otus-hm2
+
+    helm install my-postgres-2 --namespace otus-hm2-2 -f values.xaml bitnami/postgresql
+
+
+
+
+    newman run Otus-hm2.postman_collection-v2.json

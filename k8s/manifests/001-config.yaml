@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+  namespace: otus-hm2
+data:
+  host: my-postgres-postgresql.otus-hm2.svc.cluster.local
+  port: '5432'
+  dbname: my-db
+  username: robot

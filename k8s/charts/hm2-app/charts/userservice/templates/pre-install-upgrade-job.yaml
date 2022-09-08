@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: userservice-dbmigrator
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: dbmigrator-app
+        image: "{{ .Values.dbmigratorimage.repository }}:{{ .Values.dbmigratorimage.tag | default .Chart.AppVersion }}"
+        env:
+          - name: DBHOSTNAME
+            valueFrom: 
+              configMapKeyRef:
+                name: db-config
+                key: host
+          - name: DBPORT
+            valueFrom: 
+              configMapKeyRef:
+                name: db-config
+                key: port
+          - name: DBNAME
+            valueFrom: 
+              configMapKeyRef:
+                name: db-config
+                key: dbname
+          - name: DBUSERNAME
+            valueFrom: 
+              configMapKeyRef:
+                name: db-config
+                key: username
+          - name: DBPASSWORD
+            valueFrom: 
+              secretKeyRef:
+                name: my-postgres-postgresql
+                key: password
+
+  
+
+

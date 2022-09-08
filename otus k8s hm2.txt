@@ -1,0 +1,33 @@
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+
+helm install nginx ingress-nginx/ingress-nginx --namespace m -f nginx-config.yaml
+
+kubectl create ns otus-hm2  
+
+helm install my-postgres  --namespace otus-hm2 --set auth.username=$(kubectl get cm db-config --namespace otus-hm2 -o jsonpath="{.data.username}"),auth.database=$(kubectl get cm db-config --namespace otus-hm2 -o jsonpath="{.data.dbname}")     -f values.yaml bitnami/postgresql
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-postgres bitnami/postgresql -n otus-hm2
+
+
+helm install my-postgres --namespace otus-hm2 -f values.xaml bitnami/postgresql
+
+
+kubectl apply -f 000-config.yaml
+kubectl apply -f 001-secret.yaml
+
+helm install my-postgres  --namespace otus-hm2 --set auth.username=$([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl get secret db-secret --namespace otus-hm2 -o jsonpath="{.data.username}")))),auth.postgresPassword=$([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl get secret db-secret --namespace otus-hm2 -o jsonpath="{.data.password}")))),auth.database=$(kubectl get cm db-config --namespace otus-hm2 -o jsonpath="{.data.dbname}")     bitnami/postgresql
+
+helm install my-db-test2  --namespace otus-hm2-db --set auth.username=$(kubectl get cm db-config --namespace otus-hm2-db -o jsonpath="{.data.username}"),auth.postgresPassword=$([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($(kubectl get secret db-secret --namespace otus-hm2-db -o jsonpath="{.data.password}")))),auth.database=$(kubectl get cm db-config --namespace otus-hm2-db -o jsonpath="{.data.dbname}")     bitnami/postgresql
+
+
+
+
+
+
+kubectl delete ns otus-hm2-db
+kubectl create ns otus-hm2 

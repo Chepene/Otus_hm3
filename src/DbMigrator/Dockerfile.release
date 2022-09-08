@@ -1,0 +1,4 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine3.16-amd64 as runtime
+WORKDIR /app
+COPY out/ ./
+ENTRYPOINT ["dotnet", "DbMigrator.dll"]

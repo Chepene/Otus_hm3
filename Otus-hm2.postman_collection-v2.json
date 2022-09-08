@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "2cd82b03-9c4e-41f3-8441-5646eafbe372",
+		"name": "Otus-hm2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21208820"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "health/startup",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/health/startup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"health",
+								"startup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "healthz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/healthz",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"healthz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ready",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/ready",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"ready"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "health-details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/health-details",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"health-details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var u = require('uuid').v4()\r",
+									"pm.collectionVariables.set(\"userId\", u);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/api/v1/users",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/api/v1/users/{{userId}}",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var u = require('uuid').v4()\r",
+									"pm.collectionVariables.set(\"userId\", u);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"{{userId}}\",\r\n    \"name\": \"Nastiia\",\r\n    \"phone\": \"+791231154321\",\r\n    \"birthdate\": \"1990-01-03\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myurl}}/api/v1/users/",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"{{userId}}\",\r\n    \"name\": \"Nastiia-updated\",\r\n    \"phone\": \"+791231154321-updated\",\r\n    \"birthdate\": \"1990-01-04\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myurl}}/api/v1/users/{{userId}}",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{myurl}}/api/v1/users/{{userId}}",
+							"host": [
+								"{{myurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{myurl}}",
+					"host": [
+						"{{myurl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "myurl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

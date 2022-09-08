@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "userservice.fullname" . }}
+  labels:
+    {{- include "userservice.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategy | default "RollingUpdate" }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "userservice.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "userservice.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "userservice.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DBHOSTNAME
+              valueFrom: 
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+            - name: DBPORT
+              valueFrom: 
+                configMapKeyRef:
+                  name: db-config
+                  key: port
+            - name: DBNAME
+              valueFrom: 
+                configMapKeyRef:
+                  name: db-config
+                  key: dbname
+            - name: DBUSERNAME
+              valueFrom: 
+                configMapKeyRef:
+                  name: db-config
+                  key: username
+            - name: DBPASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: my-postgres-postgresql
+                  key: password
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: ready
+              port: http
+          startupProbe:
+            httpGet:
+              path: health/startup
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
