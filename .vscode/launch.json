@@ -1,0 +1,63 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/api/bin/Debug/net6.0/API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/src/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch DbMigrator (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "builddbmigrator",
+            "program": "${workspaceFolder}/src/dbmigrator/bin/Debug/net6.0/DbMigrator.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/dbmigrator",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/src/Views"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": "Docker .NET Core Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/API/API.csproj"
+            },
+            "dockerServerReadyAction": {
+                "uriFormat": "%s://localhost:%s/"
+            }
+        }
+    ]
+}

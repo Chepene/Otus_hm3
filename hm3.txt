@@ -1,0 +1,24 @@
+1. install prometeius metrics into asp.net core
+
+dotnet add package prometheus-net --version 6.0.0
+dotnet add package prometheus-net.AspNetCore --version 6.0.0
+
+2.
+
+kubectl create ns otus
+
+helm install my-postgres --namespace otus --set auth.username=robot,auth.database=my-db  -f values.yaml bitnami/postgresql
+
+helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v1" --set userservice.dbmigratorimage.tag="v0.0.4"
+
+helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v1" --set userservice.dbmigratorimage.tag="v0.0.4" --debug --dry-run
+
+helm uninstall userservice-release --namespace otus
+
+cd .\k8s\manifests\monitoring\
+kubectl apply -f service-monitor.yaml
+
+
+
+
+kubectl delete ns otus

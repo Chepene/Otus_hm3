@@ -5,7 +5,7 @@ userservice:
   replicaCount: 3
   
   config:
-   host: my-postgres-postgresql.otus-hm2.svc.cluster.local
+   host: my-postgres-postgresql.otus.svc.cluster.local
    port: '5432'
    dbname: my-db
    username: robot
@@ -15,8 +15,8 @@ userservice:
     tag: "latest"
 
   image:
-    repository: chepene/otus2-repo
-    pullPolicy: IfNotPresent
+    repository: chepene/otus3-repo
+    pullPolicy: Always
     strategy: Recreate
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
