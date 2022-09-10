@@ -2,14 +2,15 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: userservice-monitor
+  namespace: monitoring
   labels:
     app: userservice-monitor
     
 spec:
   endpoints:
-    - port: http
-      interval: 15s
-      path: /metrics     
+    - port: {{ .Values.monitoring.portName }}
+      interval: {{ .Values.monitoring.interval }}
+      path: {{ .Values.monitoring.path }}     
   selector:
     matchLabels:
       app: userservice

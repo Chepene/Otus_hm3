@@ -13,7 +13,9 @@ helm upgrade --install userservice-release . --namespace otus --set userservice.
 
 helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v1" --set userservice.dbmigratorimage.tag="v0.0.4" --debug --dry-run
 
-helm uninstall userservice-release --namespace otus
+helm uninstall userservice-release --namespace otus & kubectl delete configmap db-config --namespace otus
+
+
 
 cd .\k8s\manifests\monitoring\
 kubectl apply -f service-monitor.yaml

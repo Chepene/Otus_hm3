@@ -4,6 +4,7 @@ metadata:
   name: {{ include "userservice.fullname" . }}
   labels:
     {{- include "userservice.labels" . | nindent 4 }}
+    app: userservice
 spec:
   type: {{ .Values.service.type }}
   ports:

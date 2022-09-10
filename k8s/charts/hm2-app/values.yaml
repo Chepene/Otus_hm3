@@ -14,10 +14,11 @@ userservice:
     repository: chepene/otus2-dbmigrator
     tag: "latest"
 
+  strategy: Recreate
+
   image:
     repository: chepene/otus3-repo
     pullPolicy: Always
-    strategy: Recreate
     # Overrides the image tag whose default is the chart appVersion.
     tag: "latest"
 
@@ -37,6 +38,11 @@ userservice:
   service:
     type: ClusterIP
     port: 80
+
+  monitoring: 
+    interval: 15s
+    portName: http
+    path: /metrics
 
   ingress:
     enabled: true

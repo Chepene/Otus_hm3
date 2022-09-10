@@ -21,6 +21,7 @@ spec:
       {{- end }}
       labels:
         {{- include "userservice.selectorLabels" . | nindent 8 }}
+        app: userservice
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
