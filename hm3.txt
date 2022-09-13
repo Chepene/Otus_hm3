@@ -9,17 +9,25 @@ kubectl create ns otus
 
 helm install my-postgres --namespace otus --set auth.username=robot,auth.database=my-db  -f values.yaml bitnami/postgresql
 
-helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v1" --set userservice.dbmigratorimage.tag="v0.0.4"
+helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v5" --set userservice.dbmigratorimage.tag="v0.0.4"
 
-helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v1" --set userservice.dbmigratorimage.tag="v0.0.4" --debug --dry-run
+helm upgrade --install userservice-release . --namespace otus --set userservice.image.tag="v5" --set userservice.dbmigratorimage.tag="v0.0.4" --debug --dry-run
 
 helm uninstall userservice-release --namespace otus & kubectl delete configmap db-config --namespace otus
 
+cd C:\Program Files\Apache\bin
+C:\Program Files\Apache\bin>FOR /L %N IN () DO FOR /L %N IN () DO ab.exe -n 50 -c 10 http://arch.homework/api/v1/users
+
+ kubectl port-forward --namespace otus svc/my-postgres-postgresql 5438:5432    
+
+promql
+
+histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{action = "GetUsers"}[1m]))) --50% запросов выполняется быстрее, чем за это время
 
 
-cd .\k8s\manifests\monitoring\
-kubectl apply -f service-monitor.yaml
+dotnet publish -c Release -o .\API\out
 
+docker build -t chepene/otus3-repo:v4 -f Dockerfile.release .
 
 
 

@@ -11,11 +11,11 @@ namespace API.Controllers
     public class UsersController : BasicApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        public async Task<ActionResult<List<User>>> GetUsers(int page = 1, int pageSize = 100)
         {
-           return await Mediator.Send(new List.Query());
+           return await Mediator.Send(new List.Query{PageNum = page, PageSize = pageSize});
         }
-
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
@@ -41,5 +41,7 @@ namespace API.Controllers
         {
             return Ok(await Mediator.Send(new Delete.Command{Id = id}));
         }
+
+
     }
 }

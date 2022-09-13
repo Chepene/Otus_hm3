@@ -11,7 +11,12 @@ namespace Application.Users
 {
     public class List
     {
-        public class Query : IRequest<List<User>>{}
+        public class Query : IRequest<List<User>>
+        {
+            public int PageSize {get; set;}
+
+            public int PageNum {get;set;}
+        }
 
         public class Handler : IRequestHandler<Query, List<User>>
         {
@@ -23,7 +28,9 @@ namespace Application.Users
 
             public async Task<List<User>> Handle(Query request, CancellationToken cancellationToken)
             {
-               return await _context.Users.ToListAsync();
+                var startRecordNumber = (request.PageNum - 1) * request.PageSize;  
+
+                return await _context.Users.OrderBy(u => u.Name).Skip(startRecordNumber).Take(request.PageSize).ToListAsync();
             }
         }
 

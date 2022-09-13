@@ -8,6 +8,8 @@ using Persistnce;
 using MediatR;
 using Application.Users;
 using Application.Core;
+using Prometheus;
+using Prometheus.SystemMetrics;
 
 internal class Program
 {
@@ -23,7 +25,8 @@ internal class Program
         builder.Services.AddHealthChecks()
             .AddCheck<ConfigurationHealthCheck>("configuration", null, new[] { "startup" })
             .AddCheck<DbHealthCheck>("db", null, new[] { "startup" })
-            .AddCheck<DumbHealthCheck>("dumb", null, new[] {"dumb"});
+            .AddCheck<DumbHealthCheck>("dumb", null, new[] {"dumb"})
+            .ForwardToPrometheus();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,9 +43,10 @@ internal class Program
 
         builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
+        builder.Services.AddSystemMetrics();
+
         var app = builder.Build();
  
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -52,9 +56,12 @@ internal class Program
         app.UseHttpsRedirection();
 
         app.UseRouting();
+        app.UseHttpMetrics();
         app.UseAuthorization(); 
         app.UseEndpoints(endpoints => 
         {
+            endpoints.MapMetrics();
+
             endpoints.MapHealthChecks("/health-details", new HealthCheckOptions()
             {
                 Predicate = _ => true,
