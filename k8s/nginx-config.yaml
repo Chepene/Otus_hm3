@@ -24,6 +24,11 @@ controller:
     targetCPUUtilizationPercentage: 48
     targetMemoryUtilizationPercentage: 90
 
+  metrics:
+    enabled: true
+    serviceMonitor: 
+      enabled: true
+
 #  metrics:
 #    enabled: true
 #    serviceMonitor:
