@@ -10,6 +10,7 @@ using Application.Users;
 using Application.Core;
 using Prometheus;
 using Prometheus.SystemMetrics;
+using Microsoft.Extensions.Options;
 
 internal class Program
 {
@@ -44,6 +45,8 @@ internal class Program
         builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
         builder.Services.AddSystemMetrics();
+
+        builder.Services.AddHttpClient(Options.DefaultName).UseHttpClientMetrics();
 
         var app = builder.Build();
  

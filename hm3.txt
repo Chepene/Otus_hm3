@@ -25,9 +25,10 @@ promql
 histogram_quantile(0.5, sum by (le) (rate(http_request_duration_seconds_bucket{action = "GetUsers"}[1m]))) --50% запросов выполняется быстрее, чем за это время
 
 
-dotnet publish -c Release -o .\API\out
+dotnet publish -c Release -o .\API\out 
+docker build -t chepene/otus3-repo:v6 -f Dockerfile.release . 
+docker push chepene/otus3-repo:v6
 
-docker build -t chepene/otus3-repo:v4 -f Dockerfile.release .
 
 
 

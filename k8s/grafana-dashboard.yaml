@@ -109,7 +109,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (action) (rate(http_request_duration_seconds_count{controller = \"Users\"}[1m]))",
+          "expr": "sum by (action) (rate(http_requests_received_total{controller = \"Users\"}[1m]))",
           "legendFormat": "{{action}}",
           "range": true,
           "refId": "A"
@@ -211,7 +211,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(http_request_duration_seconds_count{controller=\"Users\", code=~\"5.+\"}[1m])) by (action)",
+          "expr": "sum(increase(http_requests_received_total{controller=\"Users\", code=~\"5.+\"}[1m])) by (action)",
           "legendFormat": "{{action}}",
           "range": true,
           "refId": "A"
@@ -222,9 +222,9 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "sum by (status) (increase(nginx_ingress_controller_request_duration_seconds_count{status=~\"5.+\"}[1m]))",
+          "expr": "sum (increase(nginx_ingress_controller_request_duration_seconds_count{status=~\"5.+\"}[1m]))",
           "hide": false,
-          "legendFormat": "nginx-ingress",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "B"
         }
@@ -549,14 +549,14 @@
   "templating": {
     "list": []
   },
-  "time": {s
-    "from": "now-30m",
+  "time": {
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "UserService",
   "uid": "XmmRhQM4z",
-  "version": 15,
+  "version": 17,
   "weekStart": ""
 }
