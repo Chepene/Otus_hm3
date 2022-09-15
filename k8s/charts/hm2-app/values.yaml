@@ -9,6 +9,7 @@ userservice:
    port: '5432'
    dbname: my-db
    username: robot
+   path: "postgresql://my-postgres-postgresql.otus.svc.cluster.local:5432/postgres?sslmode=disable"
 
   dbmigratorimage:
     repository: chepene/otus2-dbmigrator

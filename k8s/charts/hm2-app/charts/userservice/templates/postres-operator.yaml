@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-operator
+  namespace: otus
+  labels:
+    app: postgres-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-operator
+  template:
+    metadata:
+      labels:
+        app: postgres-operator
+    spec:
+      containers:
+        - name: postgres-operator-app
+          image: quay.io/prometheuscommunity/postgres-exporter
+          ports:
+            - containerPort: 9187
+          env:
+            - name: DATA_SOURCE_URI
+              valueFrom: 
+                configMapKeyRef: 
+                  name: db-config
+                  key: path
+            - name: DATA_SOURCE_USER
+              valueFrom: 
+                configMapKeyRef: 
+                  name: db-config
+                  key: username
+            - name: DATA_SOURCE_PASS
+              valueFrom: 
+                secretKeyRef: 
+                  name: my-postgres-postgresql
+                  key: password
+        #    env:
+        #      - name: DATA_SOURCE_NAME
+        #        valueFrom: 
+        #          configMapKeyRef:
+        #            name: db-config
+        #            key: fullpath
+
