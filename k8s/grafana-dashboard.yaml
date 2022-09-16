@@ -68,6 +68,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -171,6 +172,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -274,6 +276,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -479,6 +482,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -580,6 +584,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -669,6 +674,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -710,7 +716,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "rate(container_cpu_usage_seconds_total{container=\"userservice\"}[1m])",
+          "expr": "rate(container_cpu_usage_seconds_total{container=\"userservice\"}[3m])",
           "legendFormat": "{{pod}}, mb",
           "range": true,
           "refId": "A"
@@ -758,6 +764,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -847,6 +854,8 @@
             }
           },
           "mappings": [],
+          "max": 0.01,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -936,6 +945,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -995,13 +1005,13 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "UserService",
   "uid": "XmmRhQM4z",
-  "version": 28,
+  "version": 29,
   "weekStart": ""
 }
