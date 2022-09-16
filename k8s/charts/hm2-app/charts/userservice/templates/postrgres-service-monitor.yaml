@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-operator-monitor
+  namespace: monitoring
+  labels:
+    app: postgres-operator-monitor
+    
+spec:
+  endpoints:
+    - port: {{ .Values.postgresoperatormonitoring.portName }}
+      interval: {{ .Values.postgresoperatormonitoring.interval }}
+      path: {{ .Values.postgresoperatormonitoring.path }}     
+  selector:
+    matchLabels:
+      app: postgres-operator
+  namespaceSelector:
+    # matchNames:
+    # - default
+    any: true
+  
